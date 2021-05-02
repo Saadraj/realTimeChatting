@@ -38,7 +38,7 @@ export default function Home() {
 
     if (loading) {
         return (
-            <div style={{ display: "grid", placeItems: "center" }}>
+            <div style={{ display: "grid", placeItems: "center",height:'100vh' }}>
                 <h1>Loading....</h1>
             </div>
         );
@@ -60,22 +60,23 @@ export default function Home() {
 
             <main>
                 <Grid container justify="center">
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                         <UserList setConversationName={setConversationName} />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                         {conversationName.name ? (
                             <Chatting conversationName={conversationName} />
                         ) : (
                             <Preview />
                         )}
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={12} md={4}>
                         <div
                             style={{
                                 height: "95vh",
                                 overflowY: "auto",
                                 position: "relative",
+                                padding:'0 1rem'
                             }}
                         >
                             <Typography variant="h4" paragraph>

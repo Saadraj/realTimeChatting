@@ -80,10 +80,11 @@ const UserList = ({ setConversationName }) => {
             style={{
                 borderRight: "1px solid grey",
                 height: "50vh",
+                overflowY:'auto'
             }}
         >
             <Typography variant="h4" align="center" paragraph>
-                Users List
+                Friends
             </Typography>
             <Divider />
             {state.map((v) =>
@@ -128,6 +129,7 @@ const UserList = ({ setConversationName }) => {
             style={{
                 borderRight: "1px solid grey",
                 height: "50vh",
+                overflowY:'auto'
             }}
         >
             <Typography variant="h4" align="center" paragraph>
