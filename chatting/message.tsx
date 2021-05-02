@@ -1,4 +1,10 @@
-import { createStyles, makeStyles, Paper, Theme, Typography } from "@material-ui/core";
+import {
+    createStyles,
+    makeStyles,
+    Paper,
+    Theme,
+    Typography,
+} from "@material-ui/core";
 import React, { memo, useEffect, useState } from "react";
 import { auth, fireStore } from "../Firebase";
 
@@ -43,8 +49,8 @@ const Message = ({ conversationName }) => {
                     }}
                 >
                     <Paper
-                elevation={0}
-                component='span'
+                        elevation={0}
+                        component="span"
                         style={{
                             backgroundColor:
                                 auth.currentUser.uid === msg.uid
@@ -58,9 +64,13 @@ const Message = ({ conversationName }) => {
                             padding: "10px",
                         }}
                     >
-                       <Typography component='span' paragraph>{msg.message}</Typography>
+                        <Typography component="span" paragraph>
+                            {msg.message}
+                        </Typography>
                     </Paper>
-                       <p>{msg?.createdAt?.toDate().toLocaleTimeString('en-US')}</p>
+                    <p>
+                        {msg?.createdAt?.toDate().toLocaleTimeString("en-US")}
+                    </p>
                 </div>
             ))}
         </div>

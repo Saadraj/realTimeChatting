@@ -68,7 +68,7 @@ const index = ({ conversationName }) => {
         }
     };
     return (
-        <div style={{ height: "100vh", borderRight: "1px solid grey" }}>
+        <div style={{ height: "100vh", borderRight: "1px solid grey",paddingBottom:'1rem' }}>
             <Card className={classes.title}>
                 <Typography variant="h4" paragraph>
                     {conversationName.name}

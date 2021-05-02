@@ -50,7 +50,10 @@ const Login = () => {
     const classes = useStyles();
     const router = useRouter();
     const [errorMessage, setErrorMessage] = useState("");
-    const submitSignUp = async (values: { email: string; password: string; }) => {
+    const submitSignUp = async (values: {
+        email: string;
+        password: string;
+    }) => {
         try {
             const validateData = await loginValidationSchema.validate(values);
             auth.signInWithEmailAndPassword(

@@ -1,4 +1,10 @@
-import { Divider,Tooltip, Grid, IconButton, Typography } from "@material-ui/core";
+import {
+    Divider,
+    Grid,
+    IconButton,
+    Tooltip,
+    Typography
+} from "@material-ui/core";
 import LibraryAddCheckIcon from "@material-ui/icons/LibraryAddCheck";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import { useEffect, useState } from "react";
@@ -67,113 +73,123 @@ const UserList = ({ setConversationName }) => {
         }
     };
 
-    const setConversation = (messageList,name) => {
-        const message = messageList.filter((v) =>
-            v.id === auth.currentUser.uid ? v.message : ""
-        );
-        setConversationName({message:message[0].message,name});
+    const setConversation = (messageList, name) => {
+        try {
+            const message = messageList.filter((v) =>
+                v.id === auth.currentUser.uid ? v.message : ""
+            );
+            setConversationName({ message: message[0].message, name });
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     return (
         <>
-        <div
-            style={{
-                borderRight: "1px solid grey",
-                height: "50vh",
-                overflowY:'auto'
-            }}
-        >
-            <Typography variant="h4" align="center" paragraph>
-                Friends
-            </Typography>
-            <Divider />
-            {state.map((v) =>
-                v.email !== auth?.currentUser?.email && friends?.includes(v.id)  ? (
-                    <Grid
-                        container
-                        key={v.id}
-                        justify="space-between"
-                        alignItems="center"
-                        style={{
-                            padding: "0 1rem",
-                            cursor: "pointer",
-                            borderBottom: "1px solid grey",
-                        }}
-                        onClick={() => setConversation(v.conversation,v.name)}
-                    >
-                        <Grid item>
-                            <Typography variant="h4">{v.name}</Typography>
-                            <Typography paragraph>{v.email}</Typography>
+            <div
+                style={{
+                    borderRight: "1px solid grey",
+                    height: "50vh",
+                    overflowY: "auto",
+                }}
+            >
+                <Typography variant="h4" align="center" paragraph>
+                    Friends
+                </Typography>
+                <Divider />
+                {state.map((v) =>
+                    v.email !== auth?.currentUser?.email &&
+                    friends?.includes(v.id) ? (
+                        <Grid
+                            container
+                            key={v.id}
+                            justify="space-between"
+                            alignItems="center"
+                            style={{
+                                padding: "0 1rem",
+                                cursor: "pointer",
+                                borderBottom: "1px solid grey",
+                            }}
+                            onClick={() =>
+                                setConversation(v.conversation, v.name)
+                            }
+                        >
+                            <Grid item>
+                                <Typography variant="h4">{v.name}</Typography>
+                                <Typography paragraph>{v.email}</Typography>
+                            </Grid>
+                            <Grid item>
+                                <IconButton
+                                    color="primary"
+                                    onClick={() => addFriend(v.id)}
+                                >
+                                    {friends?.includes(v.id) ? (
+                                        <Tooltip title="Click to remove from Friend List">
+                                            <LibraryAddCheckIcon />
+                                        </Tooltip>
+                                    ) : (
+                                        <Tooltip title="Click to add in Friend List">
+                                            <PersonAddIcon />
+                                        </Tooltip>
+                                    )}
+                                </IconButton>
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <IconButton
-                                color="primary"
-                                onClick={() => addFriend(v.id)}
-                            >
-                                {friends?.includes(v.id) ? (
-                                    <Tooltip title="Click to remove from Friend List">
-                                    <LibraryAddCheckIcon />
-                                    </Tooltip>
-                                ) : (
-                                    <Tooltip title="Click to add in Friend List">
-                                    <PersonAddIcon />
-                                    </Tooltip>
-                                )}
-                            </IconButton>
+                    ) : null
+                )}
+            </div>
+            <div
+                style={{
+                    borderRight: "1px solid grey",
+                    height: "50vh",
+                    overflowY: "auto",
+                }}
+            >
+                <Typography variant="h4" align="center" paragraph>
+                    Recomanded
+                </Typography>
+                <Divider />
+                {state.map((v) =>
+                    v.email !== auth?.currentUser?.email &&
+                    !friends?.includes(v.id) ? (
+                        <Grid
+                            container
+                            key={v.id}
+                            justify="space-between"
+                            alignItems="center"
+                            style={{
+                                padding: "0 1rem",
+                                cursor: "pointer",
+                                borderBottom: "1px solid grey",
+                            }}
+                            onClick={() =>
+                                setConversation(v.conversation, v.name)
+                            }
+                        >
+                            <Grid item>
+                                <Typography variant="h4">{v.name}</Typography>
+                                <Typography paragraph>{v.email}</Typography>
+                            </Grid>
+                            <Grid item>
+                                <IconButton
+                                    color="primary"
+                                    onClick={() => addFriend(v.id)}
+                                >
+                                    {friends?.includes(v.id) ? (
+                                        <Tooltip title="Click to remove from Friend List">
+                                            <LibraryAddCheckIcon />
+                                        </Tooltip>
+                                    ) : (
+                                        <Tooltip title="Click to add in Friend List">
+                                            <PersonAddIcon />
+                                        </Tooltip>
+                                    )}
+                                </IconButton>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                ) : null
-            )}
-        </div>
-        <div
-            style={{
-                borderRight: "1px solid grey",
-                height: "50vh",
-                overflowY:'auto'
-            }}
-        >
-            <Typography variant="h4" align="center" paragraph>
-                Recomanded
-            </Typography>
-            <Divider />
-            {state.map((v) =>
-                v.email !== auth?.currentUser?.email && !friends?.includes(v.id) ? (
-                    <Grid
-                        container
-                        key={v.id}
-                        justify="space-between"
-                        alignItems="center"
-                        style={{
-                            padding: "0 1rem",
-                            cursor: "pointer",
-                            borderBottom: "1px solid grey",
-                        }}
-                        onClick={() => setConversation(v.conversation,v.name)}
-                    >
-                        <Grid item>
-                            <Typography variant="h4">{v.name}</Typography>
-                            <Typography paragraph>{v.email}</Typography>
-                        </Grid>
-                        <Grid item>
-                            <IconButton
-                                color="primary"
-                                onClick={() => addFriend(v.id)}
-                            >
-                                {friends?.includes(v.id) ? (
-                                    <Tooltip title="Click to remove from Friend List">
-                                    <LibraryAddCheckIcon />
-                                    </Tooltip>
-                                ) : (
-                                    <Tooltip title="Click to add in Friend List">
-                                    <PersonAddIcon />
-                                    </Tooltip>
-                                )}
-                            </IconButton>
-                        </Grid>
-                    </Grid>
-                ) : null
-            )}
-        </div>
+                    ) : null
+                )}
+            </div>
         </>
     );
 };

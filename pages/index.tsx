@@ -38,7 +38,13 @@ export default function Home() {
 
     if (loading) {
         return (
-            <div style={{ display: "grid", placeItems: "center",height:'100vh' }}>
+            <div
+                style={{
+                    display: "grid",
+                    placeItems: "center",
+                    height: "100vh",
+                }}
+            >
                 <h1>Loading....</h1>
             </div>
         );
@@ -76,7 +82,7 @@ export default function Home() {
                                 height: "95vh",
                                 overflowY: "auto",
                                 position: "relative",
-                                padding:'0 1rem'
+                                padding: "1rem",
                             }}
                         >
                             <Typography variant="h4" paragraph>

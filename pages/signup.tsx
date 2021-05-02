@@ -52,36 +52,45 @@ const initialValues = {
 
 const signup = () => {
     const classes = useStyles();
-    const router=useRouter()
-    const [errorMessage, setErrorMessage] = useState('');
-    
-    const submitSignUp = async (values: { name: string; email: string; confirmPassword: string; password: string; }) => {
+    const router = useRouter();
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const submitSignUp = async (values: {
+        name: string;
+        email: string;
+        confirmPassword: string;
+        password: string;
+    }) => {
         try {
-            const validateData = await signUpValidationSchema.validate(values)
-            auth.createUserWithEmailAndPassword(validateData.email, validateData.password)
+            const validateData = await signUpValidationSchema.validate(values);
+            auth.createUserWithEmailAndPassword(
+                validateData.email,
+                validateData.password
+            )
                 .then((res) => {
                     fireStore
-                .collection("users").doc(res.user.uid,)
-                .set({
-                    name:values.name,
-                    email: res.user.email,
-                    uid: res.user.uid,
-                    friends:[],
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        .collection("users")
+                        .doc(res.user.uid)
+                        .set({
+                            name: values.name,
+                            email: res.user.email,
+                            uid: res.user.uid,
+                            friends: [],
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                        })
+                        .then(() => {
+                            router.push("/");
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
                 })
-                .then(() => {
-                    router.push('/')
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-                })
-                .catch((err) =>setErrorMessage(err.message));
+                .catch((err) => setErrorMessage(err.message));
         } catch (error) {
-            setErrorMessage('Please Fill the Fields Correctly')
+            setErrorMessage("Please Fill the Fields Correctly");
         }
     };
-    
+
     return (
         <Box
             style={{
@@ -96,7 +105,7 @@ const signup = () => {
                     elevation={1}
                     style={{
                         padding: "20px",
-                        overflow:'auto'
+                        overflow: "auto",
                     }}
                 >
                     <Typography
@@ -115,7 +124,16 @@ const signup = () => {
                     >
                         {({ isSubmitting, isValidating }) => (
                             <Form>
-                                 {errorMessage && <Alert severity="error" onClose={() => {setErrorMessage('')}}>{errorMessage}</Alert>}
+                                {errorMessage && (
+                                    <Alert
+                                        severity="error"
+                                        onClose={() => {
+                                            setErrorMessage("");
+                                        }}
+                                    >
+                                        {errorMessage}
+                                    </Alert>
+                                )}
                                 <FormControl fullWidth margin="normal">
                                     <Field
                                         as={TextField}
