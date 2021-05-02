@@ -7,6 +7,12 @@ import Preview from "../chatting/preview";
 import { auth } from "../Firebase";
 import UserList from "../Users/UserList";
 
+const center={
+    display: "grid",
+    placeItems: "center",
+    height: "100vh",
+}
+
 export default function Home() {
     const [authenticate, setAuthenticate] = useState(false);
     const [user, setUser] = useState(null);
@@ -39,11 +45,7 @@ export default function Home() {
     if (loading) {
         return (
             <div
-                style={{
-                    display: "grid",
-                    placeItems: "center",
-                    height: "100vh",
-                }}
+                style={center}
             >
                 <h1>Loading....</h1>
             </div>
@@ -54,7 +56,7 @@ export default function Home() {
         return null;
     }
     return (
-        <div>
+        <>
             <Head>
                 <title>Real time Chatting App</title>
                 <meta
@@ -76,14 +78,14 @@ export default function Home() {
                             <Preview />
                         )}
                     </Grid>
-                    <Grid item xs={12} md={4}>
-                        <div
-                            style={{
-                                height: "95vh",
+                    <Grid item xs={12} md={4}  style={{
+                                ...center,
                                 overflowY: "auto",
                                 position: "relative",
                                 padding: "1rem",
-                            }}
+                                height: "95vh",
+                            }}>
+                        <div
                         >
                             <Typography variant="h4" paragraph>
                                 logged in as {user}
@@ -110,6 +112,5 @@ export default function Home() {
                     </Grid>
                 </Grid>
             </main>
-        </div>
-    );
-}
+        </>
+    )}
