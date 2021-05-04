@@ -13,6 +13,7 @@ import firebase, { auth, fireStore } from "../Firebase";
 const UserList = ({ setConversationName }) => {
     const [state, setState] = useState([]);
     const [friends, setFriends] = useState([]);
+    const [unread, setUnread] = useState([]);
     useEffect(() => {
         fireStore
             .collection("users")
@@ -31,6 +32,7 @@ const UserList = ({ setConversationName }) => {
                 const data = [];
                 data.push({ ...res.data(), id: res.id });
                 setFriends(data[0].friends);
+                setUnread(data[0].unread);
             });
     }, []);
 
@@ -73,12 +75,18 @@ const UserList = ({ setConversationName }) => {
         }
     };
 
-    const setConversation = (messageList, name) => {
+    const setConversation = (messageList, name,id) => {
         try {
             const message = messageList.filter((v) =>
                 v.id === auth.currentUser.uid ? v.message : ""
             );
-            setConversationName({ message: message[0].message, name });
+            setConversationName({ message: message[0].message, name,id });
+            fireStore
+                .collection("users")
+                .doc(auth.currentUser.uid )
+                .update({
+                    unread: firebase.firestore.FieldValue.arrayRemove(id),
+                });
         } catch (error) {
             console.log(error.message);
         }
@@ -109,14 +117,16 @@ const UserList = ({ setConversationName }) => {
                                 padding: "0 1rem",
                                 cursor: "pointer",
                                 borderBottom: "1px solid grey",
+                                color:unread?.includes(v.id) ?'black':'grey'
                             }}
                             onClick={() =>
-                                setConversation(v.conversation, v.name)
+                                setConversation(v.conversation, v.name,v.id)
                             }
                         >
                             <Grid item>
-                                <Typography variant="h4">{v.name}</Typography>
-                                <Typography paragraph>{v.email}</Typography>
+                                <Typography variant="h4">{v.name} {v.online && <Typography component='span'>(online)</Typography>}</Typography>
+                                
+                                <Typography>{v.email}</Typography>
                             </Grid>
                             <Grid item>
                                 <IconButton
@@ -161,9 +171,10 @@ const UserList = ({ setConversationName }) => {
                                 padding: "0 1rem",
                                 cursor: "pointer",
                                 borderBottom: "1px solid grey",
+                                color:unread?.includes(v.id) ?'black':'grey'
                             }}
                             onClick={() =>
-                                setConversation(v.conversation, v.name)
+                                setConversation(v.conversation, v.name,v.id)
                             }
                         >
                             <Grid item>

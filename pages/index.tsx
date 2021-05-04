@@ -4,14 +4,14 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Chatting from "../chatting";
 import Preview from "../chatting/preview";
-import { auth } from "../Firebase";
+import { auth, fireStore } from "../Firebase";
 import UserList from "../Users/UserList";
 
-const center={
+const center = {
     display: "grid",
     placeItems: "center",
     height: "100vh",
-}
+};
 
 export default function Home() {
     const [authenticate, setAuthenticate] = useState(false);
@@ -20,6 +20,7 @@ export default function Home() {
     const [conversationName, setConversationName] = useState({
         message: "",
         name: "",
+        id: "",
     });
     const router = useRouter();
     useEffect(() => {
@@ -35,6 +36,17 @@ export default function Home() {
         });
     });
 
+    const online = (e) => {
+        fireStore.collection("users").doc(auth.currentUser.uid).update({
+            online: true,
+        });
+        setTimeout(() => {
+            fireStore.collection("users").doc(auth.currentUser.uid).update({
+                online: false,
+            });
+        }, 30000);
+    };
+
     const logout = () => {
         auth.signOut().then((res) => {
             setUser(null);
@@ -44,9 +56,7 @@ export default function Home() {
 
     if (loading) {
         return (
-            <div
-                style={center}
-            >
+            <div style={center}>
                 <h1>Loading....</h1>
             </div>
         );
@@ -66,7 +76,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main>
+            <main onClick={online}>
                 <Grid container justify="center">
                     <Grid item xs={12} md={4}>
                         <UserList setConversationName={setConversationName} />
@@ -78,15 +88,19 @@ export default function Home() {
                             <Preview />
                         )}
                     </Grid>
-                    <Grid item xs={12} md={4}  style={{
-                                ...center,
-                                overflowY: "auto",
-                                position: "relative",
-                                padding: "1rem",
-                                height: "95vh",
-                            }}>
-                        <div
-                        >
+                    <Grid
+                        item
+                        xs={12}
+                        md={4}
+                        style={{
+                            ...center,
+                            overflowY: "auto",
+                            position: "relative",
+                            padding: "1rem",
+                            height: "95vh",
+                        }}
+                    >
+                        <div>
                             <Typography variant="h4" paragraph>
                                 logged in as {user}
                             </Typography>
@@ -113,4 +127,5 @@ export default function Home() {
                 </Grid>
             </main>
         </>
-    )}
+    );
+}

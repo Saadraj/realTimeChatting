@@ -61,6 +61,14 @@ const index = ({ conversationName }) => {
                 })
                 .then(() => {
                     setMessage("");
+                    fireStore
+                .collection("users")
+                .doc(conversationName.id)
+                .update({
+                    unread: firebase.firestore.FieldValue.arrayUnion(
+                        auth.currentUser.uid
+                    ),
+                });
                 })
                 .catch((error) => {
                     console.log(error);
