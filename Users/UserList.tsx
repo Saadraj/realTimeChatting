@@ -91,7 +91,6 @@ const UserList = ({ setConversationName }) => {
             console.log(error.message);
         }
     };
-
     return (
         <>
             <div
@@ -117,16 +116,16 @@ const UserList = ({ setConversationName }) => {
                                 padding: "0 1rem",
                                 cursor: "pointer",
                                 borderBottom: "1px solid grey",
-                                color:unread?.includes(v.id) ?'black':'grey'
+                                color:unread?.includes(v.id) ?'black':'grey',
                             }}
                             onClick={() =>
                                 setConversation(v.conversation, v.name,v.id)
                             }
                         >
                             <Grid item>
-                                <Typography variant="h4">{v.name} {v.online && <Typography component='span'>(online)</Typography>}</Typography>
+                                <Typography variant="h4" style={{ fontWeight:unread?.includes(v.id) ?'bolder':'normal'}}>{v.name} {v.online && <Typography component='span'>(online)</Typography>}</Typography>
                                 
-                                <Typography>{v.email}</Typography>
+                                <Typography style={{ fontWeight:unread?.includes(v.id) ?'bolder':'normal'}}>{v.email}</Typography>
                             </Grid>
                             <Grid item>
                                 <IconButton
@@ -178,8 +177,8 @@ const UserList = ({ setConversationName }) => {
                             }
                         >
                             <Grid item>
-                                <Typography variant="h4">{v.name}</Typography>
-                                <Typography paragraph>{v.email}</Typography>
+                                <Typography variant="h4" style={{ fontWeight:unread?.includes(v.id) ?'bolder':'normal'}}>{v.name}</Typography>
+                                <Typography paragraph style={{ fontWeight:unread?.includes(v.id) ?'bolder':'normal'}}>{v.email}</Typography>
                             </Grid>
                             <Grid item>
                                 <IconButton

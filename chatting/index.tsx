@@ -38,12 +38,14 @@ const useStyles = makeStyles((theme: Theme) =>
 const index = ({ conversationName }) => {
     const classes = useStyles();
     const scrollRef = useRef(null);
+    const inputRef = useRef(null);
     const [message, setMessage] = useState("");
 
     useEffect(() => {
         scrollRef.current.scrollIntoView({
             behavior: "smooth",
         });
+        inputRef.current.focus()
     }, [conversationName]);
 
     const submitSignUp = (e) => {
@@ -97,6 +99,7 @@ const index = ({ conversationName }) => {
                             placeholder="message"
                             variant="outlined"
                             value={message}
+                            ref={inputRef}
                             autoFocus
                             onChange={(e) => setMessage(e.target.value)}
                         />

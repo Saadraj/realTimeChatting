@@ -76,7 +76,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main onClick={online} onMouseOver={online} onScroll={online}>
+            <main onClick={online}>
                 <Grid container justify="center">
                     <Grid item xs={12} md={4}>
                         <UserList setConversationName={setConversationName} />
