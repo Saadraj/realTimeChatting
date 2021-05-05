@@ -76,6 +76,7 @@ const signup = () => {
                             email: res.user.email,
                             uid: res.user.uid,
                             unread:[],
+                            totalUnread:0,
                             friends: [],
                             online:false,
                             createdAt: firebase.firestore.FieldValue.serverTimestamp(),

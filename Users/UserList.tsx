@@ -17,7 +17,7 @@ const UserList = ({ setConversationName }) => {
     useEffect(() => {
         fireStore
             .collection("users")
-            .orderBy("createdAt", "desc")
+            .orderBy("totalUnread")
             .onSnapshot((res) => {
                 const data = [];
                 res.docs.forEach((value) => {
@@ -75,22 +75,24 @@ const UserList = ({ setConversationName }) => {
         }
     };
 
-    const setConversation = (messageList, name,id) => {
+    const setConversation = (messageList, name,id,totalUnread) => {
         try {
             const message = messageList.filter((v) =>
                 v.id === auth.currentUser.uid ? v.message : ""
             );
-            setConversationName({ message: message[0].message, name,id });
+            setConversationName({ message: message[0].message, name,id,totalUnread });
             fireStore
                 .collection("users")
                 .doc(auth.currentUser.uid )
                 .update({
                     unread: firebase.firestore.FieldValue.arrayRemove(id),
+                    totalUnread:totalUnread?totalUnread-1:0
                 });
         } catch (error) {
             console.log(error.message);
         }
     };
+
     return (
         <>
             <div
@@ -119,7 +121,7 @@ const UserList = ({ setConversationName }) => {
                                 color:unread?.includes(v.id) ?'black':'grey',
                             }}
                             onClick={() =>
-                                setConversation(v.conversation, v.name,v.id)
+                                setConversation(v.conversation, v.name,v.id,v.totalUnread)
                             }
                         >
                             <Grid item>
@@ -173,7 +175,7 @@ const UserList = ({ setConversationName }) => {
                                 color:unread?.includes(v.id) ?'black':'grey'
                             }}
                             onClick={() =>
-                                setConversation(v.conversation, v.name,v.id)
+                                setConversation(v.conversation, v.name,v.id,v.totalUnread)
                             }
                         >
                             <Grid item>

@@ -70,6 +70,7 @@ const index = ({ conversationName }) => {
                     unread: firebase.firestore.FieldValue.arrayUnion(
                         auth.currentUser.uid
                     ),
+                    totalUnread:conversationName.totalUnread+1
                 });
                 })
                 .catch((error) => {
