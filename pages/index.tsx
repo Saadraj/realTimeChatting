@@ -44,7 +44,7 @@ export default function Home() {
             fireStore.collection("users").doc(auth.currentUser.uid).update({
                 online: false,
             });
-        }, 30000);
+        }, 60000);
     };
 
     const logout = () => {
@@ -76,7 +76,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <main onClick={online}>
+            <main onClick={online} onMouseOver={online} onScroll={online}>
                 <Grid container justify="center">
                     <Grid item xs={12} md={4}>
                         <UserList setConversationName={setConversationName} />
